@@ -1,7 +1,7 @@
 "use client";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Search, ShoppingCart, User, Heart } from "lucide-react";
 import { User as UserType } from "@/types";
 
@@ -13,19 +13,20 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({
-  cartItemsCount = 0,
   user = null,
   onLoginClick,
   onLogout,
 }) => {
   const [cartCount, setCartCount] = useState<number>(0);
-  const[userName,setUserName]=useState<string>('')
+  const [userName, setUserName] = useState<string>('')
+  const pathname = usePathname();
+
+  const hideBadge = pathname === "/cart";
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedCount = Number(
-        localStorage.getItem("siyana-cart-count") || 0
-      );
-      const name:any=localStorage.getItem('siyana-user-name')
+      const storedCount: any = localStorage.getItem("siyana-cart-count") || 0
+
+      const name: any = localStorage.getItem('siyana-user-name')
       setUserName(name)
       setCartCount(storedCount);
     }
@@ -49,7 +50,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const handleCartClick = () => {
     router.push("/cart"); // 👈 navigates to your cart page (e.g., /cart)
   };
-  console.log(userName,'username')
+  console.log(userName, 'username')
 
   return (
     <header className="sticky top-0 z-50 bg-[#278899] shadow-md overflow-hidden rounded-3xl m-4 ">
@@ -99,9 +100,9 @@ const Navbar: React.FC<NavbarProps> = ({
             onClick={handleCartClick}
           >
             <ShoppingCart size={24} className="text-white" />
-            {cartItemsCount > 0 && (
+            {!hideBadge && cartCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                {cartItemsCount}
+                {cartCount}
               </span>
             )}
           </div>

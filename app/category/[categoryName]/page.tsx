@@ -59,11 +59,14 @@ export default async function CategoryPage({
   searchParams,
 }: CategoryPageProps): Promise<ReactElement> {
   const { categoryName } = await params;
-  
+ 
+  const decodedName = decodeURIComponent(categoryName);
+
   const categories = await fetchCategories();
-  
-  // 2️⃣ Find the selected category by slug
-  const category = categories.find((cat) => cat.name === categoryName);
+
+  const category = categories.find(
+    (cat) => cat.name.toLowerCase() === decodedName.toLowerCase()
+  );
 
   if (!category) notFound();
    const products = await fetchProductsByCategory(category.id);
