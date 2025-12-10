@@ -203,7 +203,7 @@ export const fetchGoldRate = async () => {
 export const signupUser = async (name: string, email: string, mobile: string, password: string) => {
   try {
     // 1. Create user in Firebase Auth
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password, mobile);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
     // 2. Update display name
