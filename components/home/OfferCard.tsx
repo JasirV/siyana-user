@@ -20,10 +20,7 @@ const OfferCard: React.FC<OfferCardProps> = ({ productName, discountPercentage, 
 
     const categorySlug = offerToCategoryMap[discountPercentage];
     if (categorySlug) {
-      router.push(`/category/${categorySlug}`);
-    } else {
-      // Fallback to rings category
-      router.push('/category/rings');
+      router.push(`${categorySlug}`);
     }
   };
 
