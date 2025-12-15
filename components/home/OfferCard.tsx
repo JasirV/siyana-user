@@ -14,6 +14,9 @@ const OfferCard: React.FC<OfferCardProps> = ({
   image,
   route,
 }): ReactElement => {
+  const safeRoute = route
+    ? "/" + route.split("/").map(encodeURIComponent).join("/")
+    : "/";
   return (
     <div
       className={`relative h-72 overflow-hidden group cursor-pointer rounded-3xl ${className}`}
@@ -31,11 +34,13 @@ const OfferCard: React.FC<OfferCardProps> = ({
           {discountPercentage} Flat Offer
         </p>
         <h3 className="text-3xl font-bold text-yellow-300">{productName}</h3>
-        <Link href={route}>
-          <span className="mt-4 inline-block text-sm font-semibold text-white border-b-2 border-white pb-1 hover:border-yellow-300 transition-colors">
-            SHOP NOW
-          </span>
-        </Link>
+        {route && (
+          <Link href={safeRoute}>
+            <span className="mt-4 inline-block text-sm font-semibold text-white border-b-2 border-white pb-1 hover:border-yellow-300 transition-colors">
+              SHOP NOW
+            </span>
+          </Link>
+        )}
       </div>
     </div>
   );
